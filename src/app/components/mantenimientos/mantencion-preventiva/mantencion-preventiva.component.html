@@ -1,0 +1,70 @@
+      <div class="container mt-4">
+        <form [formGroup]="FormPreventivo" (ngSubmit)="envia()">
+          <div class="form-group">
+            <label for="n_correlativo">N° Solicitud</label>
+            <input type="number" class="form-control" id="n_correlativo" formControlName="n_correlativo">
+            </div>
+          <div class="form-group">
+            <label for="centro_costo">Centro de Costo</label>
+            <input type="text" id="centro_costo" formControlName="centro_costo" class="form-control" required />
+          </div>
+          <div class="form-group">
+            <label for="identificacion_puerta">Identificación Puerta</label>
+            <input type="text" id="identificacion_puerta" formControlName="identificacion_puerta" class="form-control" required />
+          </div>
+          <div class="form-group">
+            <label for="cantidad_puertas">Cantidad de Puertas</label>
+            <input type="number" id="cantidad_puertas" formControlName="cantidad_puertas" class="form-control" required />
+          </div>
+          <div class="form-group">
+            <label for="nombre_tecnico">Nombre Técnico Responsable</label>
+            <input type="text" id="nombre_tecnico" formControlName="nombre_tecnico" class="form-control" required />
+          </div>
+          <div class="form-group">
+            <label for="nombre_convenio">Nombre Convenio</label>
+            <input type="text" id="nombre_convenio" formControlName="nombre_convenio" class="form-control" required />
+          </div>
+          <div class="form-group">
+            <label for="complejo_asistencial">Complejo Asistencial</label>
+            <input type="text" id="complejo_asistencial" formControlName="complejo_asistencial" class="form-control" required />
+          </div>
+          <div class="form-group">
+            <label for="fecha">Fecha</label>
+            <input type="date" id="fecha" formControlName="fecha" class="form-control" required />
+          </div>
+          <h3>Inspecciones</h3>
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th>Descripción</th>
+                <th>Cumple</th>
+                <th>No Cumple</th>
+                <th>No Aplica</th>
+                <th>Observación</th>
+              </tr>
+            </thead>
+            <tbody formArrayName="inspecciones">
+              <tr *ngFor="let inspeccion of inspecciones.controls; let i = index" [formGroupName]="i">
+                <td><input type="text" class="form-control" formControlName="descripcion" readonly /></td>
+                <td><input type="radio" formControlName="resultado" [value]="'cumple'" /></td>
+                <td><input type="radio" formControlName="resultado" [value]="'no_cumple'" /></td>
+                <td><input type="radio" formControlName="resultado" [value]="'no_aplica'" /></td>
+                <td><input type="text" class="form-control" formControlName="observacion" /></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="form-group mt-4">
+            <label for="observaciones">Observación General</label>
+            <textarea id="observaciones" formControlName="observaciones" class="form-control"></textarea>
+          </div>
+          <!-- <div class="form-group mt-4">
+            <label for="firma_adjudicatario">Firma Adjudicatario</label>
+              <signature-pad formControlName="firma_adjudicatario" id="firma_adjudicatario" #adjudicadoFirma></signature-pad>
+          </div>
+          <div class="form-group mt-4">
+            <label for="firma_adjudicatario">Firma RT</label>
+              <signature-pad formControlName="firma_rt" id="firma_rt" #rtFirma></signature-pad>
+          </div> -->
+          <button type="submit" class="btn btn-success mb-3 mt-4">Enviar</button>
+        </form>
+      </div>

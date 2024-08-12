@@ -1,0 +1,145 @@
+<div class="container my-4">
+  <div class="card shadow-sm">
+    <div class="card-header bg-primary text-white text-center">
+      <h2>SOLICITUD DE MANTENCIÓN</h2>
+    </div>
+    <div class="card-body">
+  <form [formGroup]="solicitudForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="nSolicitud">N° Solicitud</label>
+      <input type="number" class="form-control" id="nSolicitud" formControlName="N_SOLICITUD">
+      <div *ngIf="solicitudForm.get('N_SOLICITUD')?.invalid && solicitudForm.get('N_SOLICITUD')?.touched" class="text-danger">
+        Campo requerido
+      </div>
+    </div>
+    <div class="text-right">
+      <p>CAMPOS COMPAÑÍA LTDA</p>
+      <p>76.478.367-0</p>
+    </div>
+    <h5>Información General</h5>
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label for="tipoSolicitud">Tipo solicitud</label>
+        <input type="text" class="form-control" id="tipoSolicitud" formControlName="TIPO_SOLICITUD">
+      </div>
+      <div class="form-group col-md-6">
+        <label for="asistUrgencia">Asistencia de Urgencia</label>
+        <input type="text" class="form-control" id="asistUrgencia" formControlName="ASIST_URGENCIA">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label for="estadoSolicitud">Estado solicitud</label>
+        <input type="text" class="form-control" id="estadoSolicitud" formControlName="ESTADO_SOLICITUD">
+      </div>
+      <div class="form-group col-md-6">
+        <label for="areaAsignada">Área Asignada</label>
+        <input type="text" class="form-control" id="areaAsignada" formControlName="AREA_ASIGNADA">
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="solicitante">Solicitante</label>
+      <input type="text" class="form-control" id="solicitante" formControlName="SOLICITANTE">
+    </div>
+    <div class="form-group">
+      <label for="encargado">Encargado Área</label>
+      <input type="text" class="form-control" id="encargado" formControlName="ENCARGADO">
+    </div>
+    <div class="form-group">
+      <label for="tecnicoInterno">Técnico Interno</label>
+      <input type="text" class="form-control" id="tecnicoInterno" formControlName="TECNICO_INTERNO">
+    </div>
+    <div class="form-group">
+      <label for="tecnicoExterno">Técnico Externo</label>
+      <input type="text" class="form-control" id="tecnicoExterno" formControlName="TECNICO_EXTERNO">
+    </div>
+    <div class="form-row">
+      <div class="form-group col-md-2">
+        <label for="fechaSolicitud">Fecha solicitud</label>
+        <input type="date" class="form-control" id="fechaSolicitud" formControlName="FECHA_SOLICITUD">
+      </div>
+      <div class="form-group col-md-2">
+        <label for="fechaAsigArea">Fecha Asig. Área</label>
+        <input type="date" class="form-control" id="fechaAsigArea" formControlName="FECHA_ASIG_AREA">
+      </div>
+      <div class="form-group col-md-2">
+        <label for="fechaAsigTecnico">Fecha Asig. Técnico</label>
+        <input type="date" class="form-control" id="fechaAsigTecnico" formControlName="FECHA_ASIG_TECNICO">
+      </div>
+    </div>
+      <div class="form-row">
+      <div class="form-group col-md-2">
+        <label for="fechaMantenimiento">Fecha Mantenimiento</label>
+        <input type="date" class="form-control" id="fechaMantenimiento" formControlName="FECHA_MANTENCION">
+      </div>
+      <div class="form-group col-md-2">
+        <label for="fechaEnvio">Fecha Envío</label>
+        <input type="date" class="form-control" id="fechaEnvio" formControlName="FECHA_ENVIO">
+      </div>
+      <div class="form-group col-md-2">
+        <label for="fechaRecepcion">Fecha Recepción</label>
+        <input type="date" class="form-control" id="fechaRecepcion" formControlName="FECHA_RECEPCION">
+      </div>
+    </div>
+
+    <h5>Detalles de la Solicitud</h5>
+    <div class="form-group">
+      <label for="bienServicio">Bien / Servicio</label>
+      <input type="text" class="form-control" id="bienServicio" formControlName="BIEN_SERVICIO">
+    </div>
+    <div class="form-group">
+      <label for="ubicacionDependencia">Ubicación / Dependencia</label>
+      <input type="text" class="form-control" id="ubicacionDependencia" formControlName="UBICACION_DEPENDENCIA">
+    </div>
+    <div class="form-group">
+      <label for="motivoSolicitud">Motivo Solicitud</label>
+      <textarea class="form-control" id="motivoSolicitud" formControlName="MOTIVO_SOLICITUD"></textarea>
+    </div>
+    <div class="form-group">
+      <label for="observacionAdmin">Obs. Administrador</label>
+      <textarea class="form-control" id="observacionAdmin" formControlName="OBSERVACION_ADMIN"></textarea>
+    </div>
+    <div class="form-group">
+      <label for="observacionGestor">Obs. Gestor</label>
+      <textarea class="form-control" id="observacionGestor" formControlName="OBSERVACION_GESTOR"></textarea>
+    </div>
+    <div class="form-group">
+      <label for="observacionValidacion">Obs. Validación</label>
+      <textarea class="form-control" id="observacionValidacion" formControlName="OBSERVACION_VALIDACION"></textarea>
+    </div>
+
+    <h5>Información de Mantenimiento</h5>
+    <div class="form-group">
+      <label for="tipoMantencion">Tipo Mantenimiento</label>
+      <!-- <input type="text" class="form-control" id="tipoMantencion" formControlName="TIPO_MANTENCION"> -->
+      <textarea class="form-control" id="tipoMantencion" formControlName="TIPO_MANTENCION"></textarea>
+    </div>
+    <div class="form-group">
+      <label for="valorMantencion">Valor Mantenimiento</label>
+      <input type="number" class="form-control" id="valorMantencion" formControlName="VALOR_MANTENCION">
+    </div>
+    <!-- <div class="form-group">
+      <label for="valorEstimado">Valor Estimado</label>
+      <input type="number" class="form-control" id="valorEstimado" formControlName="VALOR_ESTIMADO">
+    </div> -->
+
+    <h5>Firmas</h5>
+    <div class="form-row">
+      <div class="form-group col-md-4">
+        <label for="solicitadoPor">Solicitado por</label>
+        <input type="text" class="form-control" id="solicitadoPor" formControlName="SOLICITADO_POR">
+      </div>
+      <div class="form-group col-md-4">
+        <label for="revisadoPor">Revisado por</label>
+        <input type="text" class="form-control" id="revisadoPor" formControlName="REVISADO_POR">
+      </div>
+      <div class="form-group col-md-4">
+        <label for="validadoPor">Validado por</label>
+        <input type="text" class="form-control" id="validadoPor" formControlName="VALIDADO_POR">
+      </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary" [disabled]="solicitudForm.invalid">Enviar Solicitud</button>
+  </form>
+</div>
+</div></div>

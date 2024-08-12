@@ -1,0 +1,68 @@
+<div class="container my-4">
+  <div class="card shadow-sm">
+    <div class="card-header bg-primary text-white text-center">
+      <h2>REGISTRO DE USUARIO</h2>
+    </div>
+    <div class="card-body">
+  <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="nombre">Nombre</label>
+      <input type="text" class="form-control" id="nombre" formControlName="nombre">
+      <div *ngIf="registerForm.get('nombre')?.invalid && registerForm.get('nombre')?.touched" class="text-danger">
+        Campo requerido
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="user">Usuario</label>
+      <input type="text" class="form-control" id="user" formControlName="user">
+      <div *ngIf="registerForm.get('user')?.invalid && registerForm.get('user')?.touched" class="text-danger">
+        Campo requerido
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="tipo">Tipo</label>
+      <input type="text" class="form-control" id="tipo" formControlName="tipo">
+      <div *ngIf="registerForm.get('tipo')?.invalid && registerForm.get('tipo')?.touched" class="text-danger">
+        Campo requerido
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="correo">Correo</label>
+      <input type="email" class="form-control" id="correo" formControlName="correo">
+      <div *ngIf="registerForm.get('correo')?.invalid && registerForm.get('correo')?.touched" class="text-danger">
+        Correo inválido
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="telefono">Teléfono</label>
+      <input type="text" class="form-control" id="telefono" formControlName="telefono">
+      <div *ngIf="registerForm.get('telefono')?.invalid && registerForm.get('telefono')?.touched" class="text-danger">
+        Campo requerido
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="rut">RUT</label>
+      <input type="text" class="form-control" id="rut" formControlName="rut">
+      <div *ngIf="registerForm.get('rut')?.invalid && registerForm.get('rut')?.touched" class="text-danger">
+        Campo requerido
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="fNac">Fecha de Nacimiento</label>
+      <input type="date" class="form-control" id="fNac" formControlName="fNac">
+      <div *ngIf="registerForm.get('fNac')?.invalid && registerForm.get('fNac')?.touched" class="text-danger">
+        Campo requerido
+      </div>
+    </div>
+
+
+    <button type="submit" class="btn btn-primary" [disabled]="registerForm.invalid">Registrar</button>
+  </form>
+</div>
+</div></div>

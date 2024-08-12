@@ -1,0 +1,34 @@
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+.d-flex {
+  display: flex;
+}
+
+.flex-column {
+  flex-direction: column;
+}
+
+.min-vh-100 {
+  min-height: 100vh;
+}
+
+.flex-grow-1 {
+  flex-grow: 1;
+}
+
+.mt-auto {
+  margin-top: auto;
+}
+
+
+main.content {
+  flex: 1 0 auto;
+  margin-top: 60px; /* Ajusta esta altura según la altura de tu navbar */
+}
+
+footer {
+  flex-shrink: 0;
+}

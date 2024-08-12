@@ -1,0 +1,57 @@
+.text-small {
+  font-size: 0.8rem;
+}
+th, td {
+  white-space: nowrap;
+}
+.table-responsive {
+  overflow-x: auto;
+}
+.text-truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.center-text {
+  text-align: center;
+}
+.me-2 {
+  --bs-btn-padding-y: .25rem;
+  --bs-btn-padding-x: .5rem;
+  --bs-btn-font-size: .70rem;
+}
+
+.modal-header, .modal-body, .modal-footer {
+  padding: 20px;
+}
+
+.modal-title {
+  font-size: 1.5rem;
+  margin: 0;
+}
+
+.row div {
+  margin-bottom: 10px;
+}
+.tabla-mantenimiento{
+--mat-table-background-color: #ffffff;
+  --mat-table-header-headline-color: #090303;
+  --mat-table-row-item-label-text-color: #000;
+  --mat-table-row-item-outline-color: rgba(35, 5, 46, 0.12);
+}
+.truncate-responsive {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width:30vw;
+}
+.col-motivo {
+  flex-grow: 1;
+}
+
+.custom-switch-label {
+  color: #3f51b5; /* Cambia este valor por el color que desees */
+  font-weight: bold;
+}
+
+

@@ -1,0 +1,52 @@
+<nav class="navbar fixed-top bg-primary">
+  <div class="container-fluid">
+    <a class="navbar-brand">
+      <img src="assets/images/logo.jpg" alt="Logo" width="50" class="d-inline-block align-text-top">
+    </a>
+    <button class="btn btn-outline-light" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions"> Menú
+      <i class="bi bi-menu-button-fill"></i>
+    </button>
+  </div>
+</nav>
+
+<div class="offcanvas offcanvas-start bg-primary" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions" aria-labelledby="offcanvasWithBothOptionsLabel">
+  <div class="offcanvas-header bg-light">
+    <a class="navbar-brand">
+      <img src="assets/images/logo.jpg" alt="Logo" width="50" class="d-inline-block align-text-top">
+    </a>
+    <h3 class="offcanvas-title" id="offcanvasWithBothOptionsLabel">Menú</h3>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <hr>
+  <div class="offcanvas-body d-flex flex-column justify-content-between">
+    <div>
+      <nav class="navbar">
+        <div class="container-fluid">
+          <div class="navbar-nav">
+            <a class="nav-link" *ngIf="isLogged | async" [routerLink]="['/dashboard']"  data-bs-dismiss="offcanvas" aria-label="Close"><i class="bi bi-house-fill"></i> Inicio</a>
+            <hr class="text-light">
+            <p class="nav-item text-light"><i class="bi bi-card-list"></i> Mantenciones Programadas</p>
+            <a class="nav-link" *ngIf="isLogged | async" [routerLink]="['/solicitud-new']"  data-bs-dismiss="offcanvas" aria-label="Close"><i class="bi bi-arrow-right-square"></i> Agregar Solicitud Mantenimiento</a>
+            <a class="nav-link" *ngIf="isLogged | async" [routerLink]="['/mantenimiento']"  data-bs-dismiss="offcanvas" aria-label="Close"><i class="bi bi-arrow-right-square"></i> Lista de Solicitudes de mantenimiento</a>
+            <hr class="text-light">
+            <p class="nav-item text-light"><i class="bi bi-card-list"></i> Mantenciones Preventivas</p>
+            <a class="nav-link" *ngIf="isLogged | async" [routerLink]="['/mantencion-preventiva']"  data-bs-dismiss="offcanvas" aria-label="Close"><i class="bi bi-arrow-right-square"></i> Agregar Mantenimiento Preventivo</a>
+            <a class="nav-link" *ngIf="isLogged | async" [routerLink]="['/preventivas-list']"  data-bs-dismiss="offcanvas" aria-label="Close"><i class="bi bi-arrow-right-square"></i> Lista de Mantenciones Preventivas</a>
+            <a class="nav-link" *ngIf="!(isLogged | async)" [routerLink]="['/login']">Login</a>
+          </div>
+        </div>
+      </nav>
+    </div>
+    <div *ngIf="isLogged | async" class="navbar-text mt-3 d-flex align-items-center">
+      <div class="dropdown">
+        <a class="dropdown-toggle d-flex align-items-center text-light" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <i class="bi bi-person-circle " style="font-size: 1.5rem; margin-right: 0.5rem;"></i>
+          {{ (currentUser | async)?.name }}
+        </a>
+        <ul class="dropdown-menu" aria-labelledby="userDropdown">
+          <li><a class="dropdown-item" href="#" (click)="onClickLogout()">Logout</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

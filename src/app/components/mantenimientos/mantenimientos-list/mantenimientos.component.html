@@ -1,0 +1,384 @@
+<div class="container-fluid my-4">
+
+  <div class="card bg-secondary">
+    <div class="card-body">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Buscar</mat-label>
+            <input matInput (keyup)="applyFilter($event)" placeholder="Buscar mantenimientos">
+          </mat-form-field>
+          <button mat-raised-button class="btn btn-outline-info" (click)="openColumnModal()">Configurar Columnas</button>
+    </div>
+  </div>
+
+  <div class="table-responsive tabla-mantenimiento">
+    <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8 table align-middle">
+
+      <!-- Columnas de la tabla -->
+      <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header style="width: 70px;">Status</th>
+        <td mat-cell *matCellDef="let element">
+          <span *ngIf="element.status != 'Confirmado'" class="badge rounded-pill text-bg-warning" style="width: 70px; white-space: nowrap; padding-left: 0px; padding-right: 0px;">Activa</span>
+          <span *ngIf="element.status == 'Confirmado'" class="badge rounded-pill text-bg-success" style="width: 70px; white-space: nowrap; padding-left: 0px; padding-right: 0px;">Confirmado</span>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="N_SOLICITUD">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header style="width: 50px;">N°<br>Solicitud</th>
+        <td mat-cell *matCellDef="let element" style="width: 50px; white-space: nowrap;">{{ element.N_SOLICITUD }}</td>
+      </ng-container>
+
+
+      <ng-container matColumnDef="MOTIVO_SOLICITUD">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Motivo</th>
+        <td mat-cell *matCellDef="let element" class="text-truncate truncate-responsive col-motivo">
+          {{ element.MOTIVO_SOLICITUD }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="AREA_ASIGNADA">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header class="d-none d-md-table-cell">Área</th>
+        <td mat-cell *matCellDef="let element" class="d-none d-md-table-cell">{{ element.AREA_ASIGNADA }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="CREATED_AT">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header class="d-none d-lg-table-cell center-text">Fecha<br>Creacion</th>
+        <td mat-cell *matCellDef="let element" class="d-none d-lg-table-cell">{{ element.CREATED_AT }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="SOLICITADO_POR">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header class="d-none d-lg-table-cell">Solicitado<br>por</th>
+        <td mat-cell *matCellDef="let element" class="d-none d-lg-table-cell text-truncate" style="max-width: 100px;">{{ element.SOLICITADO_POR }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="ACCIONES">
+        <th mat-header-cell *matHeaderCellDef>Acciones</th>
+        <td mat-cell *matCellDef="let element">
+          <div class="d-flex">
+            <button class="btn btn-sm btn-outline-primary me-2" (click)="obtenerPdf(element.N_SOLICITUD)">
+              <i class="bi bi-filetype-pdf"></i>
+            </button>
+            <!-- <button *ngIf="element.status == 'Confirmado'" class="btn btn-sm btn-outline-success me-2" (click)="obtenerPdfConfirmacion(element.N_SOLICITUD)">
+              <i class="bi bi-filetype-pdf"></i>
+            </button> -->
+            <button *ngIf="element.status != 'Confirmado'" class="btn btn-sm btn-outline-info me-2" (click)="openModal(element)">
+              <i class="bi bi-eye"></i>
+            </button>
+            <button *ngIf="element.status != 'Confirmado'" class="btn btn-sm btn-outline-success me-2" (click)="confirmaMantenimiento(element._id)">
+              <i class="bi bi-check-circle"></i>
+            </button>
+            <button *ngIf="element.status != 'Confirmado'" class="btn btn-sm btn-outline-danger" (click)="confirmDelete(element._id)">
+              <i class="bi bi-x"></i>
+            </button>
+          </div>
+        </td>
+      </ng-container>
+
+      <!-- Header y filas de la tabla -->
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  </div>
+
+  <!-- Paginador -->
+  <mat-paginator [pageSizeOptions]="[10, 15, 20]" showFirstLastButtons></mat-paginator>
+</div>
+
+<!-- Modal para seleccionar columnas -->
+<div class="modal" tabindex="-1" [ngClass]="{'show': showModal}" [ngStyle]="{'display': showModal ? 'block' : 'none'}">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Seleccionar Columnas</h5>
+        <button type="button" class="btn-close" aria-label="Close" (click)="closeColumnModal()"></button>
+      </div>
+      <div class="modal-body">
+        <div *ngFor="let column of allColumns" class="mb-2">
+          <mat-slide-toggle [checked]="displayedColumns.includes(column.key)" (change)="toggleColumn(column.key)">
+            <span class="custom-switch-label">{{ column.label }}</span>
+          </mat-slide-toggle>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- modal -->
+
+  <div class="modal fade" id="detalleModal" tabindex="-1" aria-labelledby="detalleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="detalleModalLabel">Detalle de la Solicitud - N° {{detalle?.N_SOLICITUD}}</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form [formGroup]="updateForm" (ngSubmit)="onUpdate()">
+          <div class="modal-body">
+            <input type="hidden" id="id" formControlName="_id">
+
+            <h5 class="text-left">Información General</h5>
+            <div class="row">
+              <div class="col-md-6 form-group">
+                <label for="nSolicitud">N° Solicitud</label>
+                <input type="number" class="form-control" id="nSolicitud" formControlName="N_SOLICITUD">
+                <div *ngIf="updateForm.get('N_SOLICITUD')?.invalid && updateForm.get('N_SOLICITUD')?.touched" class="text-danger">
+                  Campo requerido
+                </div>
+              </div>
+              <div class="col-md-6 form-group">
+                <label for="tipoSolicitud">Tipo solicitud</label>
+                <input type="text" class="form-control" id="tipoSolicitud" formControlName="TIPO_SOLICITUD">
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6 form-group">
+                <label for="asistUrgencia">Asistencia de Urgencia</label>
+                <input type="text" class="form-control" id="asistUrgencia" formControlName="ASIST_URGENCIA">
+              </div>
+              <div class="col-md-6 form-group">
+                <label for="estadoSolicitud">Estado solicitud</label>
+                <input type="text" class="form-control" id="estadoSolicitud" formControlName="ESTADO_SOLICITUD">
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6 form-group">
+                <label for="areaAsignada">Área Asignada</label>
+                <input type="text" class="form-control" id="areaAsignada" formControlName="AREA_ASIGNADA">
+              </div>
+              <div class="col-md-6 form-group">
+                <label for="solicitante">Solicitante</label>
+                <input type="text" class="form-control" id="solicitante" formControlName="SOLICITANTE">
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6 form-group">
+                <label for="encargado">Encargado Área</label>
+                <input type="text" class="form-control" id="encargado" formControlName="ENCARGADO">
+              </div>
+              <div class="col-md-6 form-group">
+                <label for="tecnicoInterno">Técnico Interno</label>
+                <input type="text" class="form-control" id="tecnicoInterno" formControlName="TECNICO_INTERNO">
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6 form-group">
+                <label for="tecnicoExterno">Técnico Externo</label>
+                <input type="text" class="form-control" id="tecnicoExterno" formControlName="TECNICO_EXTERNO">
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-2 form-group">
+                <label for="fechaSolicitud">Fecha solicitud</label>
+                <input type="date" class="form-control" id="fechaSolicitud" formControlName="FECHA_SOLICITUD">
+              </div>
+              <div class="col-md-2 form-group">
+                <label for="fechaAsigArea">Fecha Asig. Área</label>
+                <input type="date" class="form-control" id="fechaAsigArea" formControlName="FECHA_ASIG_AREA">
+              </div>
+              <div class="col-md-2 form-group">
+                <label for="fechaAsigTecnico">Fecha Asig. Técnico</label>
+                <input type="date" class="form-control" id="fechaAsigTecnico" formControlName="FECHA_ASIG_TECNICO">
+              </div>
+              <div class="col-md-2 form-group">
+                <label for="fechaMantenimiento">Fecha Mantenimiento</label>
+                <input type="date" class="form-control" id="fechaMantenimiento" formControlName="FECHA_MANTENCION">
+              </div>
+              <div class="col-md-2 form-group">
+                <label for="fechaEnvio">Fecha Envío</label>
+                <input type="date" class="form-control" id="fechaEnvio" formControlName="FECHA_ENVIO">
+              </div>
+              <div class="col-md-2 form-group">
+                <label for="fechaRecepcion">Fecha Recepción</label>
+                <input type="date" class="form-control" id="fechaRecepcion" formControlName="FECHA_RECEPCION">
+              </div>
+            </div>
+
+            <h5 class="text-left mt-4">Detalles de la Solicitud</h5>
+            <div class="form-group">
+              <label for="bienServicio">Bien / Servicio</label>
+              <input type="text" class="form-control" id="bienServicio" formControlName="BIEN_SERVICIO">
+            </div>
+            <div class="form-group">
+              <label for="ubicacionDependencia">Ubicación / Dependencia</label>
+              <input type="text" class="form-control" id="ubicacionDependencia" formControlName="UBICACION_DEPENDENCIA">
+            </div>
+            <div class="form-group">
+              <label for="motivoSolicitud">Motivo Solicitud</label>
+              <textarea class="form-control" id="motivoSolicitud" formControlName="MOTIVO_SOLICITUD"></textarea>
+            </div>
+            <div class="form-group">
+              <label for="observacionAdmin">Obs. Administrador</label>
+              <textarea class="form-control" id="observacionAdmin" formControlName="OBSERVACION_ADMIN"></textarea>
+            </div>
+            <div class="form-group">
+              <label for="observacionGestor">Obs. Gestor</label>
+              <textarea class="form-control" id="observacionGestor" formControlName="OBSERVACION_GESTOR"></textarea>
+            </div>
+            <div class="form-group">
+              <label for="observacionValidacion">Obs. Validación</label>
+              <textarea class="form-control" id="observacionValidacion" formControlName="OBSERVACION_VALIDACION"></textarea>
+            </div>
+
+            <h5 class="text-left mt-4">Información de Mantenimiento</h5>
+            <div class="form-group">
+              <label for="tipoMantencion">Tipo Mantenimiento</label>
+              <!-- <input type="text" class="form-control" id="tipoMantencion" formControlName="TIPO_MANTENCION"> -->
+              <textarea class="form-control" id="tipoMantencion" formControlName="TIPO_MANTENCION"></textarea>
+            </div>
+            <div class="form-group">
+              <label for="valorMantencion">Valor Mantenimiento</label>
+              <input type="number" class="form-control" id="valorMantencion" formControlName="VALOR_MANTENCION">
+            </div>
+            <div class="form-group">
+              <label for="valorEstimado">Valor Estimado</label>
+              <input type="number" class="form-control" id="valorEstimado" formControlName="VALOR_ESTIMADO">
+            </div>
+
+            <h5>Firmas</h5>
+            <div class="form-group">
+              <hr>
+              <label for="solicitado">Solicitado por: </label>
+              <input type="text" formControlName="SOLICITADO_POR" #solicitado>
+              <!-- <div *ngIf="detalle?.SOLICITADO_POR != '' && detalle?.SOLICITADO_POR != '--' && detalle?.SOLICITADO_POR != '-'">
+                {{ detalle?.SOLICITADO_POR }}
+              </div>
+              <div *ngIf="detalle?.SOLICITADO_POR == '' || detalle?.SOLICITADO_POR == '--' || detalle?.SOLICITADO_POR == '-'">
+                <input type="text" formControlName="SOLICITADO_POR" #solicitado>
+              </div> -->
+              <br>
+              <label for="solicitadoFirma">Firma Solicitado por</label>
+              <signature-pad *ngIf="detalle?.FIRMA_SOLICITADO_POR == ''" formControlName="FIRMA_SOLICITADO_POR" #solicitadoFirma></signature-pad>
+              <img *ngIf="detalle?.FIRMA_SOLICITADO_POR" [src]="detalle?.FIRMA_SOLICITADO_POR" alt="Firma Solicitado por">
+            </div>
+
+            <div class="form-group">
+              <hr>
+              <label for="Revisado">Revisado por: </label>
+              <input type="text" formControlName="REVISADO_POR" #Revisado>
+              <!-- <div *ngIf="detalle?.REVISADO_POR != '' && detalle?.REVISADO_POR != '--' && detalle?.REVISADO_POR != '-'">
+                {{ detalle?.REVISADO_POR }}
+              </div>
+              <div *ngIf="detalle?.REVISADO_POR == '' || detalle?.REVISADO_POR == '--' || detalle?.REVISADO_POR == '-'">
+                <input type="text" formControlName="REVISADO_POR" #Revisado>
+              </div> -->
+              <br>
+              <label for="revisadoFirma">Firma Revisado por</label>
+              <signature-pad *ngIf="detalle?.FIRMA_REVISADO_POR == ''" formControlName="FIRMA_REVISADO_POR" #revisadoFirma></signature-pad>
+              <img *ngIf="detalle?.FIRMA_REVISADO_POR" [src]="detalle?.FIRMA_REVISADO_POR" alt="Firma Revisado por">
+            </div>
+
+            <div class="form-group">
+              <hr>
+              <label for="validado">Validado por: </label>
+              <input type="text" formControlName="VALIDADO_POR" #validado>
+              <!-- <div *ngIf="detalle?.VALIDADO_POR != '' && detalle?.VALIDADO_POR != '-' && detalle?.VALIDADO_POR != '--'">
+                {{ detalle?.VALIDADO_POR }}
+              </div>
+              <div *ngIf="detalle?.VALIDADO_POR == '' || detalle?.VALIDADO_POR == '--' || detalle?.VALIDADO_POR == '-'">
+                <input type="text" formControlName="VALIDADO_POR" #validado>
+              </div> -->
+              <br>
+              <label for="validadoFirma">Firma Validado por</label>
+              <signature-pad *ngIf="detalle?.FIRMA_VALIDADO_POR == '' || detalle?.FIRMA_VALIDADO_POR == null" formControlName="FIRMA_VALIDADO_POR" #validadoFirma></signature-pad>
+              <img *ngIf="detalle?.FIRMA_VALIDADO_POR" [src]="detalle?.FIRMA_VALIDADO_POR" alt="Firma Validado por">
+            </div>
+
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary" [disabled]="updateForm.invalid">Actualizar Solicitud</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+
+<!-- modal -->
+
+<!-- <div class="modal fade" id="detalleModalV2" tabindex="-1" aria-labelledby="detalleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="detalleModalLabel">Detalle de la Solicitud - N° {{detalle?.N_SOLICITUD}}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="container mt-4">
+        <form [formGroup]="confirmationForm" (ngSubmit)="envia()">
+          <div class="form-group">
+            <label for="nSolicitud">N° Solicitud</label>
+            <input type="number" class="form-control" id="nSolicitud" formControlName="N_SOLICITUD">
+            <div *ngIf="confirmationForm.get('N_SOLICITUD')?.invalid && confirmationForm.get('N_SOLICITUD')?.touched" class="text-danger">
+              Campo requerido
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="centro_costo">Centro de Costo</label>
+            <input type="text" id="centro_costo" formControlName="centro_costo" class="form-control" required />
+          </div>
+          <div class="form-group">
+            <label for="identificacion_puerta">Identificación Puerta</label>
+            <input type="text" id="identificacion_puerta" formControlName="identificacion_puerta" class="form-control" required />
+          </div>
+          <div class="form-group">
+            <label for="cantidad_puertas">Cantidad de Puertas</label>
+            <input type="number" id="cantidad_puertas" formControlName="cantidad_puertas" class="form-control" required />
+          </div>
+          <div class="form-group">
+            <label for="nombre_tecnico">Nombre Técnico Responsable</label>
+            <input type="text" id="nombre_tecnico" formControlName="nombre_tecnico" class="form-control" required />
+          </div>
+          <div class="form-group">
+            <label for="n_correlativo">Número Correlativo</label>
+            <input type="text" id="n_correlativo" formControlName="n_correlativo" class="form-control" required />
+          </div>
+          <div class="form-group">
+            <label for="nombre_convenio">Nombre Convenio</label>
+            <input type="text" id="nombre_convenio" formControlName="nombre_convenio" class="form-control" required />
+          </div>
+          <div class="form-group">
+            <label for="complejo_asistencial">Complejo Asistencial</label>
+            <input type="text" id="complejo_asistencial" formControlName="complejo_asistencial" class="form-control" required />
+          </div>
+          <div class="form-group">
+            <label for="fecha">Fecha</label>
+            <input type="date" id="fecha" formControlName="fecha" class="form-control" required />
+          </div>
+          <h3>Inspecciones</h3>
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th>Descripción</th>
+                <th>Cumple</th>
+                <th>No Cumple</th>
+                <th>No Aplica</th>
+                <th>Observación</th>
+              </tr>
+            </thead>
+            <tbody formArrayName="inspecciones">
+              <tr *ngFor="let inspeccion of inspecciones.controls; let i = index" [formGroupName]="i">
+                <td><input type="text" class="form-control" formControlName="descripcion" readonly /></td>
+                <td><input type="radio" formControlName="resultado" [value]="'cumple'" /></td>
+                <td><input type="radio" formControlName="resultado" [value]="'no_cumple'" /></td>
+                <td><input type="radio" formControlName="resultado" [value]="'no_aplica'" /></td>
+                <td><input type="text" class="form-control" formControlName="observacion" /></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="form-group mt-4">
+            <label for="observaciones">Observación General</label>
+            <textarea id="observaciones" formControlName="observaciones" class="form-control"></textarea>
+          </div>
+          <div class="form-group mt-4">
+            <label for="firma_adjudicatario">Firma Adjudicatario</label>
+              <signature-pad formControlName="firma_adjudicatario" id="firma_adjudicatario" #adjudicadoFirma></signature-pad>
+          </div>
+          <div class="form-group mt-4">
+            <label for="firma_adjudicatario">Firma RT</label>
+              <signature-pad formControlName="firma_rt" id="firma_rt" #rtFirma></signature-pad>
+          </div>
+          <button type="submit" class="btn btn-success mb-3 mt-4">Enviar</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div> -->
+

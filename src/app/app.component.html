@@ -1,0 +1,14 @@
+<div class="d-flex flex-column min-vh-100">
+  <header>
+    <app-menu></app-menu>
+  </header>
+  <main class="flex-fill content">
+    <router-outlet></router-outlet>
+  </main>
+  <footer class="text-center text-white mt-auto" style="background-color: #0a4275;">
+    <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+      © {{currentYear}} Copyright:
+      {{ title}} | V. - {{ version }}
+    </div>
+  </footer>
+</div>

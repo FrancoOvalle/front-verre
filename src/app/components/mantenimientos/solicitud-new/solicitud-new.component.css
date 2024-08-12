@@ -1,0 +1,74 @@
+.container {
+  margin-top: 20px;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-right {
+  text-align: right;
+}
+
+h2, h4 {
+  margin-bottom: 20px;
+}
+
+h5 {
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-row {
+  display: flex;
+  justify-content: space-between;
+}
+
+.form-group.col-md-2, .form-group.col-md-4, .form-group.col-md-6 {
+  flex: 0 0 auto;
+  width: 32%;
+}
+
+.btn-primary {
+  display: block;
+  width: 100%;
+  margin-top: 20px;
+}
+.container {
+  margin-top: 20px;
+}
+
+.card {
+  border-radius: 8px;
+}
+
+.card-header {
+  border-radius: 8px 8px 0 0;
+}
+
+.card-body {
+  padding: 20px;
+}
+
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.btn-block {
+  width: 100%;
+}
+
+.text-right {
+  text-align: right;
+}
+/* Estilos personalizados para ngx-toastr */
+.toast-success {
+  background-color: #5cb85c !important;
+}
+.toast-error {
+  background-color: #d9534f !important;
+}
