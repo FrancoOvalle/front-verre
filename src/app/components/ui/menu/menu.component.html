@@ -32,6 +32,11 @@
             <p class="nav-item text-light"><i class="bi bi-card-list"></i> Mantenciones Preventivas</p>
             <a class="nav-link" *ngIf="isLogged | async" [routerLink]="['/mantencion-preventiva']"  data-bs-dismiss="offcanvas" aria-label="Close"><i class="bi bi-arrow-right-square"></i> Agregar Mantenimiento Preventivo</a>
             <a class="nav-link" *ngIf="isLogged | async" [routerLink]="['/preventivas-list']"  data-bs-dismiss="offcanvas" aria-label="Close"><i class="bi bi-arrow-right-square"></i> Lista de Mantenciones Preventivas</a>
+            <hr class="text-light">
+            <p class="nav-item text-light"><i class="bi bi-card-list"></i> Usuarios </p>
+            <a class="nav-link" *ngIf="isLogged | async" [routerLink]="['/usuarios']"  data-bs-dismiss="offcanvas" aria-label="Close"><i class="bi bi-arrow-right-square"></i> Lista de Usuarios</a>
+
+
             <a class="nav-link" *ngIf="!(isLogged | async)" [routerLink]="['/login']">Login</a>
           </div>
         </div>

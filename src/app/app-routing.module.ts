@@ -8,6 +8,7 @@ import { SolicitudNewComponent } from './components/mantenimientos/solicitud-new
 import { MantencionPreventivaComponent } from './components/mantenimientos/mantencion-preventiva/mantencion-preventiva.component';
 import { PreventivasListComponent } from './components/mantenimientos/preventivas-list/preventivas-list.component';
 import { DashboardComponent } from './components/ui/dashboard/dashboard.component';
+import { MantenedorUsuarioComponent } from './components/users/mantenedor-usuario/mantenedor-usuario.component';
 const routes: Routes = [
   {
     path:'dashboard',
@@ -32,6 +33,11 @@ const routes: Routes = [
   {
     path:'mantenimiento',
     component: MantenimientosComponent,
+    canActivate:[loginGuard]
+  },
+  {
+    path:'usuarios',
+    component:MantenedorUsuarioComponent,
     canActivate:[loginGuard]
   },
   { path: 'register', component: RegisterComponent },

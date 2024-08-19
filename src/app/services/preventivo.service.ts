@@ -12,8 +12,9 @@ export class PreventivoService {
 
 
   constructor() {
-    this.baseUrl = 'http://170.239.85.62:1200/api/mantenimiento';
-    // this.baseUrl = 'http://localhost:1200/api/mantenimiento';
+    // this.baseUrl = 'http://170.239.85.62:1200/api/mantenimiento';
+    // this.baseUrl = 'https://verre.volkancloud.cl/front-verre/api/mantenimiento';
+    this.baseUrl = 'http://localhost:1200/api/mantenimiento';
   }
 
   verMantenimientos(): Observable<any> {

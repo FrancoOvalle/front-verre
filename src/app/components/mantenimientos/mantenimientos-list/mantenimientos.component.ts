@@ -178,41 +178,6 @@ export class MantenimientosComponent implements OnInit {
     });
   }
 
-  // envia() {
-
-  //   console.log(this.confirmationForm.value);
-  //   if (this.confirmationForm.valid) {
-  //     const datos = this.confirmationForm.value;
-  //     console.log({ datos });
-  //     Swal.fire({
-  //       title: '¿Estás seguro?',
-  //       text: '¡No podrás revertir esto!',
-  //       icon: 'warning',
-  //       showCancelButton: true,
-  //       confirmButtonColor: '#d33',
-  //       cancelButtonColor: '#3085d6',
-  //       confirmButtonText: 'Sí, Confirmalo!'
-  //     }).then((result) => {
-  //       if (result.isConfirmed) {
-  //         this.mantenimientoService.confirmaMantenimiento(datos).subscribe(
-  //           response => {
-  //             Swal.fire('Guardado!', 'La confirmación ha sido guardada.', 'success');
-  //             this.closeModalV2()
-  //             // Lógica adicional después de guardar, por ejemplo, cerrar el modal
-  //           },
-  //           error => {
-  //             Swal.fire('Error!', 'Hubo un problema al guardar la confirmación.', 'error');
-  //           }
-  //         );
-  //       }
-  //     });
-
-  //   } else {
-  //     console.log('El formulario no es válido');
-  //     Swal.fire('Error!', 'El formulario no es válido.', 'error');
-  //   }
-  // }
-
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;

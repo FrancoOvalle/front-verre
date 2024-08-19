@@ -25,6 +25,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MantencionPreventivaComponent } from './components/mantenimientos/mantencion-preventiva/mantencion-preventiva.component';
 import { PreventivasListComponent } from './components/mantenimientos/preventivas-list/preventivas-list.component';
 import { DashboardComponent } from './components/ui/dashboard/dashboard.component';
+import { MantenedorUsuarioComponent } from './components/users/mantenedor-usuario/mantenedor-usuario.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { DashboardComponent } from './components/ui/dashboard/dashboard.componen
     SignaturePadComponent,
     MantencionPreventivaComponent,
     PreventivasListComponent,
-    DashboardComponent
+    DashboardComponent,
+    MantenedorUsuarioComponent
   ],
   imports: [
     BrowserModule,

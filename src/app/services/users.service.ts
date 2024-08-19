@@ -15,10 +15,25 @@ export class UsersService {
   private isLoggedSubject: BehaviorSubject<boolean>;
 
   constructor() {
-    this.baseUrl = 'http://170.239.85.62:1200/api/usuarios';
+    // this.baseUrl = 'http://170.239.85.62:1200/api/usuarios';
+    this.baseUrl = 'http://localhost:1200/api/usuarios';
+    // this.baseUrl = 'https://verre.volkancloud.cl/front-verre/api/usuarios';
     this.currentUserSubject = new BehaviorSubject<any>(null);
     this.isLoggedSubject = new BehaviorSubject<boolean>(this.isLoggedIn());
     this.loadCurrentUser();
+  }
+
+  verUsuarios(): Observable<any> {
+    return this.httpClient.get<any>(this.baseUrl);
+  }
+
+  eliminarUsuario(id: string): Observable<any> {
+    return this.httpClient.delete(`${this.baseUrl}/del/${id}`);
+  }
+
+  actualizarUsuario(solicitud: any): Observable<any> {
+    console.log({data:solicitud});
+    return this.httpClient.patch(`${this.baseUrl}/edit/`, solicitud);
   }
 
   register(formValue: any): Observable<any> {
