@@ -40,7 +40,11 @@ const routes: Routes = [
     component:MantenedorUsuarioComponent,
     canActivate:[loginGuard]
   },
-  { path: 'register', component: RegisterComponent },
+  {
+    path: 'register',
+    component: RegisterComponent,
+    canActivate:[loginGuard]
+  },
   { path: 'login', component: LoginComponent },
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: '**', redirectTo: 'login' }

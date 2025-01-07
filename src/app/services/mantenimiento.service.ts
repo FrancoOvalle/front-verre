@@ -1,6 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { firstValueFrom, Observable } from 'rxjs';
+import { environment } from '../environment/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -11,16 +12,10 @@ export class MantenimientoService {
   private baseUrl: string;
 
   constructor() {
-    // this.baseUrl = 'http://170.239.85.62:1200/api/mantenimiento';
-    this.baseUrl = 'http://localhost:1200/api/mantenimiento';
-    // this.baseUrl = 'https://verre.volkancloud.cl/front-verre/api/mantenimiento';
-  }
-  // constructor() { this.baseUrl = 'http://localhost:1200/api/mantenimiento';}
+      this.baseUrl = `${environment.apiUrl}/mantenimiento`;
 
-  // async verMantenimientos(){
-  //   const data = await this.httpClient.get(this.baseUrl).toPromise();
-  //   return data;
-  // }
+  }
+
   verMantenimientos(): Observable<any> {
     return this.httpClient.get<any>(this.baseUrl);
   }

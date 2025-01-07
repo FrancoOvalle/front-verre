@@ -7,7 +7,7 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'VerreChile';
-  version = "1.27.0";
+  version = "1.27.1";
   currentYear!:number;
 
   ngOnInit() {

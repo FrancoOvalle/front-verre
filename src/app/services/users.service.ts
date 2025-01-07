@@ -3,6 +3,7 @@ import { Injectable, inject } from '@angular/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 import { jwtDecode } from 'jwt-decode';
+import { environment } from '../environment/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -15,9 +16,7 @@ export class UsersService {
   private isLoggedSubject: BehaviorSubject<boolean>;
 
   constructor() {
-    // this.baseUrl = 'http://170.239.85.62:1200/api/usuarios';
-    this.baseUrl = 'http://localhost:1200/api/usuarios';
-    // this.baseUrl = 'https://verre.volkancloud.cl/front-verre/api/usuarios';
+    this.baseUrl = `${environment.apiUrl}/usuarios`;
     this.currentUserSubject = new BehaviorSubject<any>(null);
     this.isLoggedSubject = new BehaviorSubject<boolean>(this.isLoggedIn());
     this.loadCurrentUser();
